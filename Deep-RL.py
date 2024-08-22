@@ -6,6 +6,7 @@ import numpy as np
 import random
 from collections import deque
 
+
 # Define the Q-network
 class QNetwork(nn.Module):
     def __init__(self, state_size, action_size, hidden_size=64):
@@ -20,6 +21,7 @@ class QNetwork(nn.Module):
         x = self.fc3(x)
         return x
 
+
 # Hyperparameters
 EPISODES = 500
 GAMMA = 0.99
@@ -29,6 +31,7 @@ MEMORY_SIZE = 10000
 EPSILON_START = 1.0
 EPSILON_END = 0.01
 EPSILON_DECAY = 0.995
+
 
 # Experience Replay Memory
 class ReplayMemory:
@@ -43,6 +46,7 @@ class ReplayMemory:
 
     def __len__(self):
         return len(self.memory)
+
 
 # DQN Agent
 class DQNAgent:
@@ -88,6 +92,7 @@ class DQNAgent:
         if self.epsilon > EPSILON_END:
             self.epsilon *= EPSILON_DECAY
 
+
 # Main training loop
 env = gym.make('CartPole-v1')
 state_size = env.observation_space.shape[0]
@@ -132,6 +137,7 @@ class Actor(nn.Module):
         action_probs = torch.softmax(self.fc3(x), dim=-1)
         return action_probs
 
+
 # Define the Critic network
 class Critic(nn.Module):
     def __init__(self, state_dim):
@@ -146,9 +152,10 @@ class Critic(nn.Module):
         value = self.fc3(x)
         return value
 
+
 # Hyperparameters
 gamma = 0.99  # Discount factor
-lr = 0.001    # Learning rate
+lr = 0.001  # Learning rate
 episodes = 1000
 
 # Create environment
@@ -207,6 +214,7 @@ for episode in range(episodes):
 
 env.close()
 
+
 # Deep policy gradient
 
 # Define the Policy Network
@@ -223,9 +231,10 @@ class PolicyNetwork(nn.Module):
         action_probs = torch.softmax(self.fc3(x), dim=-1)
         return action_probs
 
+
 # Hyperparameters
 gamma = 0.99  # Discount factor
-lr = 0.001    # Learning rate
+lr = 0.001  # Learning rate
 episodes = 1000
 env_name = 'CartPole-v1'
 
@@ -238,6 +247,7 @@ action_dim = env.action_space.n
 policy = PolicyNetwork(state_dim, action_dim)
 optimizer = optim.Adam(policy.parameters(), lr=lr)
 
+
 def compute_returns(rewards, gamma):
     R = 0
     returns = []
@@ -245,6 +255,7 @@ def compute_returns(rewards, gamma):
         R = r + gamma * R
         returns.insert(0, R)
     return returns
+
 
 # Training loop
 for episode in range(episodes):
