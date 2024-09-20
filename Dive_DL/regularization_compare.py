@@ -74,6 +74,7 @@ def train_with_optimizer(trn_dl, val_dl, model, loss_fn, _optimizer, ep):
     return epochs, train_losses, val_losses, train_accuracies, val_accuracies
 
 
+
 def multiple_train():
     trn_dl, val_dl = get_data(device)
     SGD_model, SGD_loss_fn, = get_MLP_model(active_name='relu', device=device, dropout=None, hidden_layers=2)
