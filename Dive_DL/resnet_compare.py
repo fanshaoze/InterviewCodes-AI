@@ -100,6 +100,7 @@ print("\nTraining ResNet CNN...")
 loss_resnet = train_model(resnet_cnn, optimizer_resnet, criterion)
 
 # 绘制损失曲线
+
 plt.figure(figsize=(10, 5))
 plt.plot(loss_simple, label='Simple CNN', marker='o')
 plt.plot(loss_resnet, label='ResNet CNN', marker='o')
