@@ -24,9 +24,6 @@ from data import get_data
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-
-
-
 def train_batch(x, y, model, loss_fn, optimizer):
     model.train()
     prediction = model(x)
@@ -102,7 +99,7 @@ def multiple_train():
         val_losses.append(_val_losses)
         train_accuracies.append(_train_accuracies)
         val_accuracies.append(_val_accuracies)
-    multiple_plot(epochs, train_losses)
+    multiple_plot(epochs, train_losses, 'optimizer_compare.png', ['SGD', 'Adagrad', 'RMSprop', 'Adam'])
     return epochs, train_losses, val_losses, train_accuracies, val_accuracies
 
 

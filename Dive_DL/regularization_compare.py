@@ -78,12 +78,12 @@ def train_with_optimizer(trn_dl, val_dl, model, loss_fn, _optimizer, ep):
 def multiple_train():
     trn_dl, val_dl = get_data(device)
     SGD_model, SGD_loss_fn, = get_MLP_model(active_name='relu', device=device, dropout=None, hidden_layers=2)
-    optimizer_sgd = SGD(SGD_model.parameters(), lr=0.001)
+    optimizer_sgd = SGD(SGD_model.parameters(), lr=0.01)
     SGD_WD_model, SGD_loss_WD_fn, = get_MLP_model(active_name='relu', device=device, dropout=None, hidden_layers=2)
-    optimizer_sgd_WD = SGD(SGD_WD_model.parameters(), lr=0.001, weight_decay=1e-6)
+    optimizer_sgd_WD = SGD(SGD_WD_model.parameters(), lr=0.01, weight_decay=1e-6)
     SGD_dropout_model, SGD_dropout_loss_fn, = get_MLP_model(active_name='relu', device=device, dropout=0.1,
                                                             hidden_layers=2)
-    optimizer_sgd_dropout = SGD(SGD_dropout_model.parameters(), lr=0.001)
+    optimizer_sgd_dropout = SGD(SGD_dropout_model.parameters(), lr=0.01)
     # SGD_model, SGD_loss_fn, = get_model(active_name='relu', device=device)
     # optimizer_sgd = SGD(SGD_model.parameters(), lr=0.001)
     models = [SGD_model, SGD_WD_model, SGD_dropout_model]
@@ -92,14 +92,14 @@ def multiple_train():
     epochs, train_losses, val_losses, train_accuracies, val_accuracies = [], [], [], [], []
     for model, loss_fn, optimizer in zip(models, losses, optimizers):
         _epochs, _train_losses, _val_losses, _train_accuracies, _val_accuracies = \
-            train_with_optimizer(copy.deepcopy(trn_dl), val_dl, model, loss_fn, optimizer, ep=500)
+            train_with_optimizer(copy.deepcopy(trn_dl), val_dl, model, loss_fn, optimizer, ep=10)
         epochs.append(_epochs)
         train_losses.append(_train_losses)
         val_losses.append(_val_losses)
         train_accuracies.append(_train_accuracies)
         val_accuracies.append(_val_accuracies)
     lables = ['SGD', 'Weight Decay 1e-6', 'Dropout 0.1']
-    multiple_plot(epochs, train_losses, file_name='regularization_compare_train_val', labels=lables, val_losses=val_losses)
+    multiple_plot(epochs, train_losses, file_name='regularization_compare_train_val_100', labels=lables, val_losses=val_losses)
     # multiple_plot(epochs, val_losses, file_name='regularization_compare', labels=lables)
 
     csv_results = [lables, ['epoch', 'train_loss', 'val_loss', 'train_accuracy', 'val_accuracy'] * len(epochs)]
