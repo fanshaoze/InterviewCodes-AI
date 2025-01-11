@@ -128,9 +128,24 @@ def train_batch(X, model, num_epochs, criterion, optimizer, plot_name='loss_RNN.
     return loss_list
 
 
+def count_parameters(model):
+    from prettytable import PrettyTable
+    table = PrettyTable(["Modules", "Parameters"])
+    total_params = 0
+    for name, parameter in model.named_parameters():
+        if not parameter.requires_grad:
+            continue
+        params = parameter.numel()
+        table.add_row([name, params])
+        total_params += params
+    print(table)
+
+    return total_params
 
 def train_with_RNN():
     model = BasicRNN(vocab_size, embedding_dim, hidden_size, output_size)
+    total_params = count_parameters(model)
+    print(f"Basic RNN Trainable Params: {total_params}")
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()  # For classification
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -141,6 +156,8 @@ def train_with_RNN():
 
 def train_with_RNNModel_TorchRNN():
     model = RNNModel_TorchRNN(input_size, hidden_size, output_size)
+    total_params = count_parameters(model)
+    print(f"Torch RNN Trainable Params: {total_params}")
     criterion = nn.CrossEntropyLoss()  # For classification
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     num_epochs = 100
