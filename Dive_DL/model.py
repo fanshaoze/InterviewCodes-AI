@@ -15,8 +15,8 @@ import numpy as np
 from torch.utils.data import Dataset, DataLoader
 import torch
 import torch.nn as nn
-
-
+import torch.nn.functional as F
+F.tanh
 def get_activation(name):
     if name == 'sigmoid':
         return nn.Sigmoid()
